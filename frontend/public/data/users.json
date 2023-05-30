@@ -1,0 +1,39 @@
+{"data": [
+  {
+    "email": "bobsmith@gmail.com",
+    "username": "bobSmith1",
+    "password": "12345678",
+    "profile": {
+      "ranking_bullet": 671,
+      "ranking_blitz": 1105,
+      "ranking_rapid": 1300,
+      "games_played": 110,
+      "games_history": []
+    }
+  },
+  {
+    "email": "johnWick@gmail.com",
+    "username": "JWick93",
+    "password": "87654321",
+    "profile": {
+      "ranking_bullet": 548,
+      "ranking_blitz": 1050,
+      "ranking_rapid": 1205,
+      "games_played": 215,
+      "games_history": []
+    }
+  },
+  {
+    "email": "superman@o2.pl",
+    "username": "superman123",
+    "password": "imsuper123",
+    "profile": {
+      "ranking_bullet": 1230,
+      "ranking_blitz": 1325,
+      "ranking_rapid": 1608,
+      "games_played": 512,
+      "games_history": []
+    }
+  }
+]
+}

@@ -1,0 +1,21 @@
+.container {
+  height: 100vh;
+}
+
+.content {
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding-bottom: 30vh;
+  h1 {
+    font-size: 2.5rem;
+  }
+  p {
+    display: block;
+    width: 50%;
+    text-align: center;
+    font-size: 1.3rem;
+  }
+}
