@@ -10,7 +10,14 @@ export const Login = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/data").then((response) => {
+    const userStr = window.localStorage.getItem("authUser");
+    const user = userStr ? JSON.parse(userStr) : null;
+
+    if (user) {
+      navigate("/");
+      return;
+    }
+    axios.get("http://localhost:8000/users").then((response) => {
       setUsers(response.data);
     });
   }, []);

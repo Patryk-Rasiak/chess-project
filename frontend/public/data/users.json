@@ -1,39 +1,85 @@
-{"data": [
-  {
-    "email": "bobsmith@gmail.com",
-    "username": "bobSmith1",
-    "password": "12345678",
-    "profile": {
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "bobsmith@gmail.com",
+      "username": "bobSmith1",
+      "password": "12345678"
+    },
+    {
+      "id": 2,
+      "email": "johnWick@gmail.com",
+      "username": "JWick93",
+      "password": "87654321"
+    },
+    {
+      "id": 3,
+      "email": "superman@o2.pl",
+      "username": "superman123",
+      "password": "imsuper123"
+    },
+    {
+      "id": 4,
+      "username": "testuser",
+      "email": "test@gmail.com",
+      "password": "maslo"
+    }
+  ],
+  "profiles": [
+    {
+      "id": 1,
+      "username": "bobSmith1",
       "ranking_bullet": 671,
       "ranking_blitz": 1105,
       "ranking_rapid": 1300,
       "games_played": 110,
-      "games_history": []
-    }
-  },
-  {
-    "email": "johnWick@gmail.com",
-    "username": "JWick93",
-    "password": "87654321",
-    "profile": {
+      "games_history": [
+        {
+          "result": "win",
+          "type": "bullet",
+          "opponent": "player34",
+          "date": "2023-19-05",
+          "moves": 52,
+          "review": 17
+        },
+        {
+          "result": "loss",
+          "type": "blitz",
+          "opponent": "john12",
+          "date": "2023-19-05",
+          "moves": 26,
+          "review": 16
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "username": "JWick93",
       "ranking_bullet": 548,
       "ranking_blitz": 1050,
       "ranking_rapid": 1205,
       "games_played": 215,
       "games_history": []
-    }
-  },
-  {
-    "email": "superman@o2.pl",
-    "username": "superman123",
-    "password": "imsuper123",
-    "profile": {
+    },
+    {
+      "id": 3,
+      "username": "superman123",
       "ranking_bullet": 1230,
       "ranking_blitz": 1325,
       "ranking_rapid": 1608,
       "games_played": 512,
       "games_history": []
-    }
-  }
-]
+
+    },
+    {
+      "id": 4,
+      "username": "testuser",
+      "ranking_bullet": 0,
+      "ranking_blitz": 0,
+      "ranking_rapid": 0,
+      "games_played": 0,
+      "games_history": []
+      }
+
+  ]
 }

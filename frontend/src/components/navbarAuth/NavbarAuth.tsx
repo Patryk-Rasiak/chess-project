@@ -28,7 +28,7 @@ export const NavbarAuth = () => {
   }
 
   return (
-    <div className={styles.right}>
+    <div className={styles.auth}>
       <Link to={"login"} id={styles.signin}>
         Sign In
       </Link>
