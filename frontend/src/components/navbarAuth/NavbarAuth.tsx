@@ -1,22 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./NavbarAuth.module.scss";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
+import { UsernameContext } from "../../common/providers/UsernameProvider.tsx";
 
 export const NavbarAuth = () => {
+  const { username, setUsername } = useContext(UsernameContext);
   const navigate = useNavigate();
-  const userStr = window.localStorage.getItem("authUser");
-  const user = userStr ? JSON.parse(userStr) : null;
 
   const handleLogout = () => {
-    window.localStorage.removeItem("authUser");
+    window.localStorage.removeItem("jwtToken");
+    setUsername(null);
     navigate("/login");
   };
 
-  if (user) {
+  if (username) {
     return (
       <div className={styles.dropdown}>
-        <span>{user.username}</span>
+        <span>{username}</span>
         <div className={styles.dropdownContent}>
           <Link to={"/profile"}>Profile</Link>
           <button className={styles.button} onClick={handleLogout}>

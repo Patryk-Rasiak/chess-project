@@ -4,14 +4,14 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import { getJwtToken } from "../../common/utils/getJwtToken.ts";
 
 export const SignUp = () => {
   const navigate = useNavigate();
   useEffect(() => {
-    const userStr = window.localStorage.getItem("authUser");
-    const user = userStr ? JSON.parse(userStr) : null;
+    const token = getJwtToken();
 
-    if (user) {
+    if (token) {
       navigate("/");
       return;
     }
@@ -23,8 +23,7 @@ export const SignUp = () => {
     const data = new FormData(
       document.getElementById("form") as HTMLFormElement
     );
-    console.log(data.get("password"));
-    console.log(data.get("confirm-password"));
+
     if (data.get("password") !== data.get("confirm-password")) {
       toast.error("Passwords do not match!", {
         toastId: "passwords-dont-match",
@@ -33,18 +32,10 @@ export const SignUp = () => {
     }
 
     axios
-      .post("http://localhost:8000/users", {
-        id: 4,
+      .post("http://localhost:8000/auth/register/", {
         username: data.get("username"),
         email: data.get("email"),
         password: data.get("password"),
-        profile: {
-          ranking_bullet: 0,
-          ranking_blitz: 0,
-          ranking_rapid: 0,
-          games_played: 0,
-          games_history: [],
-        },
       })
       .then((response) => {
         console.log(response);

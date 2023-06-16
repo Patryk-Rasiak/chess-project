@@ -1,48 +1,69 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./Login.module.scss";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import { IToken } from "../../common/interfaces/IToken.ts";
+import { UsernameContext } from "../../common/providers/UsernameProvider.tsx";
 
 export const Login = () => {
+  const { username, setUsername } = useContext(UsernameContext);
   const navigate = useNavigate();
-  const [users, setUsers] = useState([]);
+  const [formUsername, setFormUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
-    const userStr = window.localStorage.getItem("authUser");
-    const user = userStr ? JSON.parse(userStr) : null;
+    const token = window.localStorage.getItem("jwtToken");
 
-    if (user) {
+    if (token) {
       navigate("/");
       return;
     }
-    axios.get("http://localhost:8000/users").then((response) => {
-      setUsers(response.data);
-    });
   }, []);
+
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    const data = new FormData(
-      document.getElementById("form") as HTMLFormElement
-    );
+    axios
+      .post("http://localhost:8000/auth/login/", {
+        username: formUsername,
+        password: password,
+      })
+      .then((response) => {
+        const {
+          access_token,
+          refresh_token,
+          owner_id,
+          access_token_expiry,
+          refresh_token_expiry,
+        } = response.data;
 
-    const user = users.find((user: any) => {
-      return (
-        user.email === data.get("email") &&
-        user.password === data.get("password")
-      );
-    });
+        const token: IToken = {
+          ownerId: owner_id,
+          accessToken: access_token,
+          refreshToken: refresh_token,
+          accessTokenExpiry: access_token_expiry,
+          refreshTokenExpiry: refresh_token_expiry,
+        };
 
-    if (!user) {
-      toast.error("Invalid credentials", { toastId: "invalid-credentials" });
-      return;
-    }
+        // Retrieving user's username
+        axios
+          .get("http://localhost:8000/auth/username/", {
+            headers: { Authorization: "Bearer " + access_token },
+          })
+          .then((response) => {
+            setUsername(response.data.username);
+          });
 
-    toast.success("Successfully logged in!", { toastId: "logged-in" });
-    window.localStorage.setItem("authUser", JSON.stringify(user));
-    navigate("/");
+        localStorage.setItem("jwtToken", JSON.stringify(token));
+        toast.success("Successfully logged in!", { toastId: "logged-in" });
+        navigate("/");
+      })
+      .catch(() => {
+        toast.error("Invalid credentials", { toastId: "invalid-credentials" });
+        return;
+      });
   };
 
   return (
@@ -51,12 +72,19 @@ export const Login = () => {
         <h1>Sign In</h1>
         <form id="form">
           <label htmlFor="email">Email</label>
-          <input type="text" placeholder="Email" name="email" required />
+          <input
+            type="text"
+            placeholder="Email"
+            name="email"
+            onChange={(e) => setFormUsername(e.target.value)}
+            required
+          />
           <label htmlFor="password">Password</label>
           <input
             type="password"
             placeholder="Password"
             name="password"
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
           <button type="submit" onClick={handleSubmit}>

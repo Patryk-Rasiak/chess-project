@@ -8,6 +8,7 @@ import styles from "./App.module.scss";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React from "react";
+import { UsernameProvider } from "../../common/providers/UsernameProvider.tsx";
 
 const router = createBrowserRouter([
   {
@@ -36,9 +37,11 @@ const router = createBrowserRouter([
 
 export const App = () => {
   return (
-    <div className={styles.container}>
-      <ToastContainer />
-      <RouterProvider router={router} />
-    </div>
+    <UsernameProvider>
+      <div className={styles.container}>
+        <ToastContainer />
+        <RouterProvider router={router} />
+      </div>
+    </UsernameProvider>
   );
 };

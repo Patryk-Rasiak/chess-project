@@ -3,10 +3,13 @@ import { useNavigate } from "react-router";
 import styles from "./Profile.module.scss";
 import { MatchHistory } from "../../components/matchHistory/MatchHistory.tsx";
 import axios from "axios";
+import { IToken } from "../../common/interfaces/IToken.ts";
+import { getJwtToken } from "../../common/utils/getJwtToken.ts";
 
 export const Profile = () => {
   const navigate = useNavigate();
   const [profileData, setProfileData] = useState({
+    username: "",
     games_history: [],
     games_played: 0,
     ranking_bullet: 0,
@@ -14,24 +17,27 @@ export const Profile = () => {
     ranking_rapid: 0,
   });
 
-  const userStr = window.localStorage.getItem("authUser");
-  const user = userStr ? JSON.parse(userStr) : null;
+  const token: IToken | null = getJwtToken();
 
   useEffect(() => {
-    if (!user) {
+    if (!token) {
       navigate("/login");
       return;
     }
 
-    axios.get(`http://localhost:8000/profiles/${user.id}`).then((response) => {
-      console.log(response.data.games_history);
-      setProfileData(response.data);
-    });
+    axios
+      .get(`http://localhost:8000/users/profile/`, {
+        headers: { Authorization: "Bearer " + token?.accessToken },
+      })
+      .then((response) => {
+        console.log(response.data.games_history);
+        setProfileData(response.data);
+      });
   }, []);
 
   return (
     <div className={styles.container}>
-      <h1>{user.username}</h1>
+      <h1>{profileData.username}</h1>
       <div className={styles.content}>
         <MatchHistory gamesHistory={profileData.games_history} />
         <div className={styles.stats}>

@@ -1,9 +1,22 @@
 import React from "react";
 import styles from "./MatchHistory.module.scss";
-import { joinClasses } from "../../utils/joinClasses.ts";
+import { joinClasses } from "../../common/utils/joinClasses.ts";
 import { Link } from "react-router-dom";
 
-export const MatchHistory = ({ gamesHistory }) => {
+interface IGame {
+  type: string;
+  opponent: string;
+  date: string;
+  moves: string;
+  review: string;
+  result: string;
+}
+
+interface MatchHistoryProps {
+  gamesHistory: IGame[];
+}
+
+export const MatchHistory = ({ gamesHistory }: MatchHistoryProps) => {
   let body;
   if (gamesHistory.length === 0) {
     body = (
@@ -12,8 +25,8 @@ export const MatchHistory = ({ gamesHistory }) => {
       </div>
     );
   } else {
-    body = gamesHistory.map((game: any, index: number) => {
-      let resultClass = "";
+    body = gamesHistory.map((game: IGame) => {
+      let resultClass;
       if (game.result === "win") {
         resultClass = styles.win;
       } else if (game.result === "loss") {
