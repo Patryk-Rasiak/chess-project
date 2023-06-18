@@ -5,6 +5,7 @@ import { MatchHistory } from "../../components/matchHistory/MatchHistory.tsx";
 import axios from "axios";
 import { IToken } from "../../common/interfaces/IToken.ts";
 import { getJwtToken } from "../../common/utils/getJwtToken.ts";
+import { refreshToken } from "../../common/utils/refreshToken.ts";
 
 export const Profile = () => {
   const navigate = useNavigate();
@@ -30,8 +31,10 @@ export const Profile = () => {
         headers: { Authorization: "Bearer " + token?.accessToken },
       })
       .then((response) => {
-        console.log(response.data.games_history);
         setProfileData(response.data);
+      })
+      .catch((error) => {
+        refreshToken(token);
       });
   }, []);
 

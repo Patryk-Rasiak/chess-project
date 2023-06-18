@@ -31,15 +31,11 @@ export const SignUp = () => {
       return;
     }
 
-    axios
-      .post("http://localhost:8000/auth/register/", {
-        username: data.get("username"),
-        email: data.get("email"),
-        password: data.get("password"),
-      })
-      .then((response) => {
-        console.log(response);
-      });
+    axios.post("http://localhost:8000/auth/register/", {
+      username: data.get("username"),
+      email: data.get("email"),
+      password: data.get("password"),
+    });
 
     navigate("/login");
   };

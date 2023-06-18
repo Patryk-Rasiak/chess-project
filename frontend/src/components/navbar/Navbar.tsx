@@ -12,7 +12,7 @@ export const Navbar = () => {
           <Link to={"/"} className={styles.logo}>
             CHESS
           </Link>
-          <Link to={"play-guest"}>Find online game</Link>
+          <Link to={"game"}>Find online game</Link>
           <Link to={"play-friend-guest"}>Play a friend</Link>
         </div>
         <NavbarAuth />

@@ -2,6 +2,7 @@ import React, { createContext, PropsWithChildren, useEffect } from "react";
 import { IToken } from "../interfaces/IToken.ts";
 import { getJwtToken } from "../utils/getJwtToken.ts";
 import axios from "axios";
+import { refreshToken } from "../utils/refreshToken.ts";
 
 interface InitialState {
   username: string | null;
@@ -25,6 +26,11 @@ export const UsernameProvider = ({ children }: PropsWithChildren) => {
         })
         .then((response) => {
           setUsername(response.data.username);
+        })
+        .catch((error) => {
+          console.log(error);
+
+          refreshToken(token);
         });
     }
   }, []);

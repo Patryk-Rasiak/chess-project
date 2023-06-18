@@ -9,6 +9,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React from "react";
 import { UsernameProvider } from "../../common/providers/UsernameProvider.tsx";
+import { Game } from "../game/Game.tsx";
+import { GameProvider } from "../../common/providers/GameProvider.tsx";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +33,10 @@ const router = createBrowserRouter([
         path: "/profile",
         element: <Profile />,
       },
+      {
+        path: "/game",
+        element: <Game />,
+      },
     ],
   },
 ]);
@@ -38,10 +44,12 @@ const router = createBrowserRouter([
 export const App = () => {
   return (
     <UsernameProvider>
-      <div className={styles.container}>
-        <ToastContainer />
-        <RouterProvider router={router} />
-      </div>
+      <GameProvider>
+        <div className={styles.container}>
+          <ToastContainer />
+          <RouterProvider router={router} />
+        </div>
+      </GameProvider>
     </UsernameProvider>
   );
 };
