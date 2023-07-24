@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -25,19 +26,17 @@ class LoginView(TokenObtainPairView):
 
         access_token_str = response.data["access"]
         refresh_token_str = response.data["refresh"]
-        access_token = AccessToken(access_token_str)
-        refresh_token = RefreshToken(refresh_token_str)
 
-        access_token_expiry = access_token["exp"]
-        refresh_token_expiry = refresh_token["exp"]
+        access_token = AccessToken(access_token_str)
         owner_id = access_token["user_id"]
 
+        username = User.objects.get(id=owner_id).username
+
         data = {
+            "owner_username": username,
             "owner_id": owner_id,
             "access_token": access_token_str,
             "refresh_token": refresh_token_str,
-            "access_token_expiry": access_token_expiry,
-            "refresh_token_expiry": refresh_token_expiry,
         }
 
         return Response(data)
@@ -45,6 +44,7 @@ class LoginView(TokenObtainPairView):
 
 class RegisterView(APIView):
     serializer_class = UserSerializer
+    authentication_classes = ()
     permission_classes = (AllowAny,)
 
     def post(self, request):

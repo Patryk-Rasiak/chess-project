@@ -8,12 +8,12 @@ export const GameOver = () => {
   const { status, turn } = useContext(GameContext);
 
   let winner = "";
-  if (status === "checkmate") {
-    if (turn === "b") {
-      winner = "white";
-    } else {
-      winner = "black";
-    }
+
+  // Evaluating the winner
+  if (["checkmate"].includes(status)) {
+    winner = turn === "w" ? "black" : "white";
+  } else if (["time", "resignation"].includes(status)) {
+    winner = turn === "w" ? "white" : "black";
   }
 
   return (

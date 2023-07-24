@@ -1,0 +1,51 @@
+.content {
+  background-color: #ccc;
+  padding: 5rem 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100vh * 0.691);
+  width: calc(100vh * 0.3);
+  margin-top: 4vh;
+  border-radius: 12px;
+  box-shadow: -2px 2px 4px #1d1d1f;
+
+  text-align: center;
+}
+
+.opponentInfo {
+  justify-self: flex-start;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+
+  .timer {
+    margin-top: 5rem;
+  }
+}
+
+.playerInfo {
+  justify-self: flex-end;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+
+  .timer {
+    margin-bottom: 5rem;
+  }
+}
+
+.username {
+  font-weight: bold;
+  font-size: 1.8rem;
+  text-align: right;
+  margin-right: 1rem;
+}
+
+.timer {
+  margin-top: 5px;
+  font-size: 5rem;
+  text-align: center;
+}

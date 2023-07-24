@@ -8,6 +8,11 @@ type GameState = {
   check: boolean;
   gameOver: boolean;
   status: string;
+  playerName: string;
+  playerColor: string;
+  opponentName: string;
+  movesCount: number;
+  gameInProgress: boolean;
 };
 
 const initialState: GameState = {
@@ -17,6 +22,11 @@ const initialState: GameState = {
   check: false,
   gameOver: false,
   status: "",
+  playerName: "",
+  playerColor: "",
+  opponentName: "",
+  movesCount: 0,
+  gameInProgress: false,
 };
 
 export const GameContext = createContext(initialState);

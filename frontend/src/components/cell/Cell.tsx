@@ -8,26 +8,35 @@ import { useContext } from "react";
 export const Cell = ({
   cell,
   index,
+  playerColor,
   makeMove,
   setFromPos,
 }: {
   cell: CellClass;
   index: number;
+  playerColor: string;
   makeMove: (pos: string) => void;
-  setFromPos: (pos: string) => void;
+  setFromPos: (pos: string, click?: boolean) => void;
 }) => {
-  const light = isLightSquare(cell.pos, index);
+  // Check if cell is light or dark
+  const light = isLightSquare(cell.pos, index, playerColor);
 
+  // Checking if cell is a possible move
   const { possibleMoves, turn, check } = useContext(GameContext);
   const isPossibleMove = possibleMoves.includes(cell.pos);
 
+  // Checking the color of the piece
   const color = cell.piece.toUpperCase() === cell.piece ? "w" : "b";
 
-  const inCheck = () => {
+  const inCheck = (): boolean => {
     const king = cell.piece.toUpperCase() === "K";
     return turn === color && king && check;
   };
-  const handleDrop = () => {
+  const handleDrop = (): void => {
+    makeMove(cell.pos);
+  };
+
+  const handleClick = (): void => {
     makeMove(cell.pos);
   };
 
@@ -35,6 +44,7 @@ export const Cell = ({
     <div
       className={`${styles.cell} ${light ? styles.light : styles.dark}`}
       onDrop={handleDrop}
+      onClick={handleClick}
       onDragOver={(e) => e.preventDefault()}
     >
       <div
@@ -51,6 +61,7 @@ export const Cell = ({
 Cell.prototype = {
   cell: PropTypes.instanceOf(CellClass).isRequired,
   index: PropTypes.number.isRequired,
+  playerColor: PropTypes.string,
   makeMove: PropTypes.func,
   setFromPos: PropTypes.func,
 };

@@ -45,7 +45,7 @@ export const Profile = () => {
         <MatchHistory gamesHistory={profileData.games_history} />
         <div className={styles.stats}>
           <h2>Games Played</h2>
-          <p>{profileData.games_played}</p>
+          <p>{profileData.games_history.length}</p>
           <h2>Your rating</h2>
           <h3>Bullet</h3>
           <p>{profileData.ranking_bullet}</p>

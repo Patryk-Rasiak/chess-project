@@ -7,7 +7,7 @@ export default class CellClass {
   }
 }
 
-export const createBoard = (fenString: string) => {
+export const createBoard = (fenString: string, black: boolean) => {
   const fen = fenString.split(" ")[0];
   const fenPieces = fen.split("/").join("");
 
@@ -26,6 +26,12 @@ export const createBoard = (fenString: string) => {
   // Getting reversed rows - ["8", "7", "6", "5", "4", "3", "2", "1"]
   const rows = Array.from({ length: 8 }, (_, index) => (8 - index).toString());
   const columns = ["a", "b", "c", "d", "e", "f", "g", "h"];
+
+  if (black) {
+    rows.reverse();
+    columns.reverse();
+    resultPieces.reverse();
+  }
 
   const cells = []; // [a1, b1, c1..., h8]
   for (let i = 0; i < rows.length; i++) {

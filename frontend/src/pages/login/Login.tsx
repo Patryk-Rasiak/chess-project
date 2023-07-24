@@ -1,22 +1,21 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Login.module.scss";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { IToken } from "../../common/interfaces/IToken.ts";
-import { UsernameContext } from "../../common/providers/UsernameProvider.tsx";
+import { getJwtToken } from "../../common/utils/getJwtToken.ts";
 
 export const Login = () => {
-  const { username, setUsername } = useContext(UsernameContext);
   const navigate = useNavigate();
   const [formUsername, setFormUsername] = useState("");
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    const token = window.localStorage.getItem("jwtToken");
+    const jwtToken = getJwtToken();
 
-    if (token) {
+    if (jwtToken) {
       navigate("/");
       return;
     }
@@ -31,30 +30,15 @@ export const Login = () => {
         password: password,
       })
       .then((response) => {
-        const {
-          access_token,
-          refresh_token,
-          owner_id,
-          access_token_expiry,
-          refresh_token_expiry,
-        } = response.data;
+        const { owner_id, owner_username, access_token, refresh_token } =
+          response.data;
 
         const token: IToken = {
           ownerId: owner_id,
+          ownerUsername: owner_username,
           accessToken: access_token,
           refreshToken: refresh_token,
-          accessTokenExpiry: access_token_expiry,
-          refreshTokenExpiry: refresh_token_expiry,
         };
-
-        // Retrieving user's username
-        axios
-          .get("http://localhost:8000/auth/username/", {
-            headers: { Authorization: "Bearer " + access_token },
-          })
-          .then((response) => {
-            setUsername(response.data.username);
-          });
 
         localStorage.setItem("jwtToken", JSON.stringify(token));
         toast.success("Successfully logged in!", { toastId: "logged-in" });

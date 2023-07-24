@@ -1,10 +1,9 @@
 import React from "react";
 import styles from "./MatchHistory.module.scss";
-import { joinClasses } from "../../common/utils/joinClasses.ts";
 import { Link } from "react-router-dom";
 
 interface IGame {
-  type: string;
+  game_type: string;
   opponent: string;
   date: string;
   moves: string;
@@ -35,8 +34,8 @@ export const MatchHistory = ({ gamesHistory }: MatchHistoryProps) => {
         resultClass = styles.draw;
       }
       return (
-        <div className={joinClasses(styles.row, resultClass)}>
-          <p>{game.type}</p>
+        <div className={`${styles.row} ${resultClass}`}>
+          <p>{game.game_type}</p>
           <p>{game.opponent}</p>
           <p>{game.date}</p>
           <p>{game.moves}</p>

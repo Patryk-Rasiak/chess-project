@@ -5,13 +5,11 @@ export const Home = () => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <h1>Main screen</h1>
+        <h1>Welcome to Chess!</h1>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam pulvinar
-          congue justo, sed condimentum massa sollicitudin quis. Mauris mauris
-          leo, consequat in lectus ut, viverra ornare felis. Nullam ac blandit
-          leo. Duis non arcu et nibh dapibus accumsan et at leo. Duis finibus
-          purus et urna pretium, a cursus risus.
+          Unleash your strategic prowess and dive into the captivating world of
+          chess. Whether you're a seasoned grandmaster or just starting your
+          journey, Chess is your ultimate destination.
         </p>
       </div>
     </div>

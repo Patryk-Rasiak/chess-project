@@ -1,28 +1,33 @@
-import React, { useContext } from "react";
 import styles from "./NavbarAuth.module.scss";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router";
-import { UsernameContext } from "../../common/providers/UsernameProvider.tsx";
+import React from "react";
+import { getJwtToken } from "../../common/utils/getJwtToken.ts";
+// import { TokenContext } from "../../common/providers/TokenProvider.tsx";
 
-export const NavbarAuth = () => {
-  const { username, setUsername } = useContext(UsernameContext);
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
+export const NavbarAuth = ({
+  onClick,
+}: {
+  onClick: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+}) => {
+  // const token = useContext(TokenContext);
+  const token = getJwtToken();
+  const handleLogout = (event: React.MouseEvent<HTMLAnchorElement>) => {
     window.localStorage.removeItem("jwtToken");
-    setUsername(null);
-    navigate("/login");
+    onClick(event);
   };
 
-  if (username) {
+  // View User's username if logged in, else show Sign In and Sign Up buttons
+  if (token) {
     return (
       <div className={styles.dropdown}>
-        <span>{username}</span>
+        <span>{token.ownerUsername}</span>
         <div className={styles.dropdownContent}>
-          <Link to={"/profile"}>Profile</Link>
-          <button className={styles.button} onClick={handleLogout}>
+          <Link to={"/profile"} onClick={onClick}>
+            Profile
+          </Link>
+          <Link to={"/login"} className={styles.button} onClick={handleLogout}>
             Logout
-          </button>
+          </Link>
         </div>
       </div>
     );
@@ -30,10 +35,12 @@ export const NavbarAuth = () => {
 
   return (
     <div className={styles.auth}>
-      <Link to={"login"} id={styles.signin}>
+      <Link to={"login"} onClick={onClick} id={styles.signin}>
         Sign In
       </Link>
-      <Link to={"signup"}>Sign Up</Link>
+      <Link to={"signup"} onClick={onClick}>
+        Sign Up
+      </Link>
     </div>
   );
 };

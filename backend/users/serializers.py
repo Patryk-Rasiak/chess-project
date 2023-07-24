@@ -1,10 +1,11 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .models import Profile
+from users.models import Profile
 
 User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'password')
@@ -20,7 +21,6 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 class ProfileSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Profile
         fields = ('ranking_bullet', 'ranking_blitz', 'ranking_rapid', 'games_played')

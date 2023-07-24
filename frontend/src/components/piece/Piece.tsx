@@ -10,7 +10,7 @@ export const Piece = ({
 }: {
   name: string;
   pos: string;
-  setFromPos: (pos: string) => void;
+  setFromPos: (pos: string, click?: boolean) => void;
 }) => {
   const element = useRef<HTMLImageElement | null>(null);
 
@@ -19,6 +19,7 @@ export const Piece = ({
   if (name === "") {
     image = "";
   } else {
+    // Selecting the correct image of the piece
     const color = name === name.toUpperCase() ? "w" : "b";
     const imageName = color + name.toUpperCase();
     image = `src/assets/pieces/${imageName}.png`;
@@ -33,12 +34,15 @@ export const Piece = ({
     }, 0);
   };
   const handleDragEnd = () => {
+    setFromPos(pos as Square, true);
     if (element.current) {
       element.current.style.display = "block";
     }
   };
 
-  const handleClick = () => console.log({ name, pos });
+  const handleClick = () => {
+    setFromPos(pos as Square, true);
+  };
 
   return (
     <img
