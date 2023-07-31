@@ -22,7 +22,7 @@ class ProfileViewSet(RetrieveModelMixin, GenericViewSet):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
 
-        games = Game.objects.filter(Q(white_player=instance.user) | Q(black_player=instance.user))
+        games = Game.objects.filter(Q(white_player=instance.user) | Q(black_player=instance.user)).order_by('-date')
 
         game_history_serializer = GameHistorySerializer(games, many=True, context={'request': request})
 

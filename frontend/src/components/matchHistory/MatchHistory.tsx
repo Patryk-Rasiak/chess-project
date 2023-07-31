@@ -26,6 +26,7 @@ export const MatchHistory = ({ gamesHistory }: MatchHistoryProps) => {
   } else {
     body = gamesHistory.map((game: IGame) => {
       let resultClass;
+
       if (game.result === "win") {
         resultClass = styles.win;
       } else if (game.result === "loss") {
@@ -33,11 +34,26 @@ export const MatchHistory = ({ gamesHistory }: MatchHistoryProps) => {
       } else {
         resultClass = styles.draw;
       }
+
+      const currentDate = new Date();
+      const targetDate = new Date(game.date);
+      const isToday = targetDate.toDateString() === currentDate.toDateString();
+
+      const formattedDate = isToday
+        ? "today"
+        : targetDate.getFullYear() !== currentDate.getFullYear()
+        ? targetDate.toLocaleString("en-US", {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+          })
+        : targetDate.toLocaleString("en-US", { month: "long", day: "2-digit" });
+
       return (
         <div className={`${styles.row} ${resultClass}`}>
           <p>{game.game_type}</p>
           <p>{game.opponent}</p>
-          <p>{game.date}</p>
+          <p>{formattedDate}</p>
           <p>{game.moves}</p>
           <p>
             <Link to={"/review"} id={game.review}>
