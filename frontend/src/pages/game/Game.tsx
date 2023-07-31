@@ -100,6 +100,8 @@ export const Game = () => {
           setMyTurn(playerColor === chess.turn());
 
           setFen(chess.fen());
+
+          dispatch({ type: types.OPPONENT_MOVED });
           break;
         }
 

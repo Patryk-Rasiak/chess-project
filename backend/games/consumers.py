@@ -78,7 +78,6 @@ class GameConsumer(AsyncWebsocketConsumer):
 
 
             if len(get_game(self.room_group_name)) >= 2:
-
                 white_player = next((player for player in get_game(self.room_group_name) if player.color == 'w'), None)
                 black_player = next((player for player in get_game(self.room_group_name) if player.color == 'b'), None)
                 await self.channel_layer.group_send(
@@ -88,6 +87,7 @@ class GameConsumer(AsyncWebsocketConsumer):
                         'data': {
                             'whitePlayer': player_encoder.default(white_player),
                             'blackPlayer': player_encoder.default(black_player),
+                            'players_ids': [white_player.player_id, black_player.player_id],
                         }
                     }
                 )
@@ -103,6 +103,13 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     async def start_game(self, event):
         data = event['data']
+
+        self.scope['session']['opponent_id'] = (
+            data['players_ids'][0]
+            if data['players_ids'][0] != self.scope['session']['user_id']
+            else data['players_ids'][1]
+        )
+
         await self.send(json.dumps({
             'type': 'startGame',
             'data': data,
@@ -118,8 +125,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     async def game_over(self, data):
         player_id = self.scope['session']['user_id']
-        opponent_id = next((player.player_id for player in get_game(self.room_group_name) if player.player_id != player_id), None)
-
+        opponent_id = self.scope['session']['opponent_id']
         player_color = self.scope['session']['player_color']
         status = data['status']
         turn = data['turn']
@@ -131,7 +137,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         if status == 'checkmate':
             winner_id = player_id if turn != player_color else opponent_id
         elif status == 'resignation':
-            winner_id = player_id if turn == player_color else opponent_id
+            winner_id = player_id
         else:
             winner_id = None
 

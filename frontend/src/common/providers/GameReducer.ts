@@ -72,6 +72,11 @@ export const GameReducer = (
         check: action.check,
         movesCount: state.movesCount + 1,
       };
+    case types.OPPONENT_MOVED:
+      return {
+        ...state,
+        movesCount: state.movesCount + 1,
+      };
     case types.START_GAME:
       return {
         ...state,
