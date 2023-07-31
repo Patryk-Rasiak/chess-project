@@ -16,23 +16,27 @@ class PlayerEncoder(JSONEncoder):
             return obj.__dict__
         return super().default(obj)
 
-def add_player(data):
-    game_id = data['game_id']
+def find_game(data):
     name = data['name']
     player_id = data['player_id']
-    if game_id not in games:
-        color = 'w' if random.random() <= 0.5 else 'b'
-        player = Player(name, color, player_id, game_id)
-        games[game_id] = [player]
-        return None, player, None
-    elif len(games[game_id]) >= 2:
-        return 'This game is full', None, None
-    else:
-        opponent = games[game_id][0]
-        color = 'b' if opponent.color == 'w' else 'w'
-        player = Player(name, color, player_id, game_id)
-        games[game_id].append(player)
-        return None, player, opponent
+
+    for game_id, players in games.items():
+
+        if len(players) == 1:
+            opponent = players[0]
+            color = 'b' if opponent.color == 'w' else 'w'
+            player = Player(name, color, player_id, game_id)
+            players.append(player)
+            return None, game_id, player, opponent
+
+    game_id = str(random.randint(100000, 999999))
+    while game_id in games:
+        game_id = str(random.randint(100000, 999999))
+    color = 'w' if random.random() <= 0.5 else 'b'
+    player = Player(name, color, player_id, game_id)
+    games[game_id] = [player]
+    return None, game_id, player, None
+
 
 
 def remove_player(player_id):
@@ -48,3 +52,7 @@ def remove_player(player_id):
 
 def get_game(game_id):
     return games.get(game_id, [])
+
+def get_games():
+    return games
+

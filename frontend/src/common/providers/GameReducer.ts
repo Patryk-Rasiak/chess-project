@@ -13,7 +13,7 @@ const getPositions = (moves: string[], color: string) => {
       "O-O-O": "c8",
     };
   }
-  console.log("Before: ", moves);
+
   const positions = moves.map((move) => {
     const indexOfEquals = move.indexOf("=");
     if (indexOfEquals !== -1) {
@@ -24,7 +24,7 @@ const getPositions = (moves: string[], color: string) => {
       move.endsWith("+") || move.endsWith("#") ? move.length - 1 : move.length;
     return specialMoves[move] || move.substring(n - 2, n);
   });
-  console.log("After: ", positions);
+
   return [...new Set(positions)];
 };
 

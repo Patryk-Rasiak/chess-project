@@ -49,7 +49,6 @@ export const Game = () => {
       const data = {
         name: token.ownerUsername,
         userID: token.ownerId,
-        gameID: "chat_test",
       };
 
       // Sending a message to the server
@@ -89,16 +88,7 @@ export const Game = () => {
           }
           dispatch({ type: types.SET_OPPONENT, opponentName: opponent.name });
           dispatch({ type: types.START_GAME });
-          // const onBeforeUnload = (e: any) => {
-          //   if (gameInProgress) {
-          //     e.preventDefault();
-          //     e.returnValue = "";
-          //     return;
-          //   }
-          //   delete e["returnValue"];
-          // };
 
-          // window.addEventListener("beforeunload", onBeforeUnload);
           break;
         }
 
@@ -107,7 +97,7 @@ export const Game = () => {
           const { from, to } = eventData.data;
 
           chess.move({ from: from, to: to, promotion: "q" });
-          setMyTurn(playerColor !== chess.turn());
+          setMyTurn(playerColor === chess.turn());
 
           setFen(chess.fen());
           break;
