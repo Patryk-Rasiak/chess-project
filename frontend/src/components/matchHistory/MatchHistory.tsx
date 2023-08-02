@@ -24,7 +24,7 @@ export const MatchHistory = ({ gamesHistory }: MatchHistoryProps) => {
       </div>
     );
   } else {
-    body = gamesHistory.map((game: IGame) => {
+    body = gamesHistory.map((game: IGame, key) => {
       let resultClass;
 
       if (game.result === "win") {
@@ -50,7 +50,7 @@ export const MatchHistory = ({ gamesHistory }: MatchHistoryProps) => {
         : targetDate.toLocaleString("en-US", { month: "long", day: "2-digit" });
 
       return (
-        <div className={`${styles.row} ${resultClass}`}>
+        <div className={`${styles.row} ${resultClass}`} key={key}>
           <p>{game.game_type}</p>
           <p>{game.opponent}</p>
           <p>{formattedDate}</p>

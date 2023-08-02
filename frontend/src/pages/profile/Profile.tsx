@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import styles from "./Profile.module.scss";
 import { MatchHistory } from "../../components/matchHistory/MatchHistory.tsx";
-import axios from "axios";
+import { createAxiosInstance } from "../../common/utils/axiosInstance.tsx";
 import { IToken } from "../../common/interfaces/IToken.ts";
 import { getJwtToken } from "../../common/utils/getJwtToken.ts";
-import { refreshToken } from "../../common/utils/refreshToken.ts";
 
 export const Profile = () => {
   const navigate = useNavigate();
+  const axiosInstance = createAxiosInstance(navigate);
   const [profileData, setProfileData] = useState({
     username: "",
     games_history: [],
@@ -26,16 +26,9 @@ export const Profile = () => {
       return;
     }
 
-    axios
-      .get(`http://localhost:8000/users/profile/`, {
-        headers: { Authorization: "Bearer " + token?.accessToken },
-      })
-      .then((response) => {
-        setProfileData(response.data);
-      })
-      .catch((error) => {
-        refreshToken(token);
-      });
+    axiosInstance.get(`/users/profile/`).then((response) => {
+      setProfileData(response.data);
+    });
   }, []);
 
   return (
